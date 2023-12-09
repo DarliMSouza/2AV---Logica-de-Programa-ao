@@ -1,0 +1,83 @@
+class Lanchonete:
+  def __init__(self):
+      self.pedidos = [0] * 10
+      self.inicio_fila = 0
+      self.fim_fila = -1
+
+  def esta_cheia(self):
+      return self.fim_fila == 9
+
+  def esta_vazia(self):
+      return self.inicio_fila > self.fim_fila
+
+  def incluir_pedido(self, numero_pedido):
+      if not self.esta_cheia():
+          if 1 <= numero_pedido <= 10:
+              self.fim_fila += 1
+              self.pedidos[self.fim_fila] = numero_pedido
+              print(f"Pedido incluído com sucesso! Número do Pedido: {numero_pedido}")
+          else:
+              print("Número do pedido deve estar entre 1 e 10. Pedido não incluído.")
+      else:
+          print("Fila Cheia – Não Pode Mais Incluir Pedidos")
+
+  def atender_pedido(self):
+      if not self.esta_vazia():
+          print(f"Pedido atendido: {self.pedidos[self.inicio_fila]}")
+          self.inicio_fila += 1
+          if self.inicio_fila > self.fim_fila:
+              print("Todos os pedidos foram atendidos. Você pode encerrar o programa.")
+      else:
+          print("Lista Vazia – Não Existem Pedidos")
+
+  def listar_pedidos(self):
+      print("Pedidos na fila:")
+      for i in range(10):
+          if self.inicio_fila <= i <= self.fim_fila:
+              print(self.pedidos[i])
+          else:
+              print("Vazio")
+
+  def pesquisar_pedido(self, numero_pedido):
+      if not self.esta_vazia():
+          for i in range(self.inicio_fila, self.fim_fila + 1):
+              if self.pedidos[i] == numero_pedido:
+                  print(f"Pedido encontrado na posição {i + 1}")
+                  return
+          print("Pedido não encontrado")
+      else:
+          print("Lista Vazia – Não Existem Pedidos")
+
+
+# Programa Principal
+lanchonete = Lanchonete()
+
+while True:
+  print("###### LANCHONETE ######")
+  print("# 1 – INCLUIR PEDIDO     #")
+  print("# 2 - ATENDER PEDIDO     #")
+  print("# 3 - LISTAR PEDIDOS     #")
+  print("# 4 – PESQUISAR PEDIDO   #")
+  print("# 5 – ENCERRAR           #")
+  print("########################")
+
+  opcao = int(input("Escolha uma opção: "))
+
+  if opcao == 1:
+      numero_pedido = int(input("Informe o número do pedido (1 a 10): "))
+      lanchonete.incluir_pedido(numero_pedido)
+  elif opcao == 2:
+      lanchonete.atender_pedido()
+  elif opcao == 3:
+      lanchonete.listar_pedidos()
+  elif opcao == 4:
+      numero_pedido = int(input("Informe o número do pedido para pesquisar: "))
+      lanchonete.pesquisar_pedido(numero_pedido)
+  elif opcao == 5:
+      if lanchonete.esta_vazia():
+          print("Programa encerrado. Todos os pedidos foram atendidos.")
+      else:
+          print("Ainda há pedidos pendentes. Continue atendendo os pedidos.")
+      break
+  else:
+      print("Opção inválida. Tente novamente.")
